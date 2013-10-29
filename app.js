@@ -1,15 +1,17 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
-var http = require('http');
-var path = require('path');
+var express = require('express'),
+    routes = require('./routes'),
+    user = require('./routes/user'),
+    twitterRoute = require('./routes/twitterRoute'),
+    http = require('http'),
+    path = require('path'),
+    socketio = require('socket.io'),
+    twitter = require('ntwitter'),
+    app = express();
 
-var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -24,12 +26,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
+
+var server = http.createServer(app),
+    io = socketio.listen(server);
+
+server.listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
+});
+
+//Routing
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/twitter', twitterRoute.index);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+var twit = new twitter({
+    consumer_key: 'fill in',
+    consumer_secret: 'fill in',
+    access_token_key: 'fill in',
+    access_token_secret: 'fill in'
 });
+
+io.sockets.on('connection', function (socket) {
+    twit.stream('statuses/filter', {'track': ['#lanz']},
+        function (stream) {
+            stream.on('data', function (data) {
+                console.log('Got data: ' + data.text);
+                socket.emit('twitter', data);
+            });
+        });
+});
+
