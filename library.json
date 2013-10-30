@@ -1,0 +1,39 @@
+{
+    "books": [
+        {
+            "title": "Der Troll und der Gentleman",
+            "author": "dvg",
+            "genre": "Humor"
+        },
+        {
+            "title": "Fussball und Computer",
+            "author": "mads4000",
+            "genre": "Thriller"
+        },
+        {
+            "title": "Blumen richtig essen",
+            "author": "dvg",
+            "genre": "Humor"
+        },
+        {
+            "title": "Die Giraffe auf LSD",
+            "author": "dvg",
+            "genre": "Thriller"
+        },
+        {
+            "title": "Stadt der Todesgitarren",
+            "author": "mads4000",
+            "genre": "Horror"
+        },
+        {
+            "title": "Licht aus, nackig",
+            "author": "Brecht",
+            "genre": "Horror"
+        },
+        {
+            "title": "Einmal Klo und zurück",
+            "author": "Brecht",
+            "genre": "Roman"
+        }
+    ]
+}
